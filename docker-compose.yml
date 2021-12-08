@@ -1,0 +1,38 @@
+services:
+  backend:
+    build:
+      context: backend
+      dockerfile: Dockerfile.local
+    depends_on:
+    - db
+    - cache
+    volumes:
+    - ./backend:/code
+  cache:
+    image: redis
+    ports:
+    - 6379:6379
+  db:
+    environment:
+    - POSTGRES_PASSWORD=postgres
+    image: postgres:11
+    ports:
+    - 5432:5432
+  frontend:
+    build:
+      context: frontend
+      dockerfile: Dockerfile.local
+    volumes:
+    - ./frontend:/code
+    - /code/node_modules
+    - /code/.next
+  reverse-proxy:
+    depends_on:
+    - frontend
+    - backend
+    image: caddy:latest
+    ports:
+    - 3000:3000
+    volumes:
+    - ./Caddyfile:/etc/caddy/Caddyfile
+version: '3.4'
