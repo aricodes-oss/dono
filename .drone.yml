@@ -15,7 +15,6 @@ steps:
         from_secret: NPM_REGISTRY_URL
     commands:
       - cd frontend
-      - rm yarn.lock
       - yarn install --network-timeout 1000000
       - yarn lint
 
