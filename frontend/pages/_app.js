@@ -1,9 +1,13 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Head from 'next/head';
 import ReactDOM from 'react-dom';
 import AxeCore from 'axe-core';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import CssBaseline from '@mui/material/CssBaseline';
+import { ThemeProvider } from '@mui/material/styles';
+
+import theme from 'theme';
+import Nav from 'components/Nav';
 
 const isSsr = typeof window === 'undefined';
 
@@ -28,34 +32,28 @@ if (process.env.NODE_ENV !== 'production' && !isSsr) {
   });
 }
 
-const App = ({ Component, pageProps }) => {
-  useEffect(() => {
-    // Remove the server-side injected CSS.
-    const jssStyles = document.querySelector('#jss-server-side');
-    if (jssStyles) {
-      jssStyles.parentElement.removeChild(jssStyles);
-    }
-  });
+const App = ({ Component, pageProps }) => (
+  <>
+    <Head>
+      <title>Dono</title>
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+      />
 
-  return (
-    <>
-      <Head>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
-        />
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+      />
+    </Head>
 
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-        />
-      </Head>
-
+    <ThemeProvider theme={theme}>
       <CssBaseline />
+      <Nav />
       <Component {...pageProps} />
-    </>
-  );
-};
+    </ThemeProvider>
+  </>
+);
 
 App.propTypes = {
   Component: PropTypes.elementType.isRequired,
