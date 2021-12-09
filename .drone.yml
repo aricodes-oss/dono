@@ -1,0 +1,40 @@
+---
+kind: pipeline
+type: docker
+name: Frontend lint
+
+platform:
+  os: linux
+  arch: arm64
+
+steps:
+  - name: eslint
+    image: node:latest
+    environment:
+      # Use the local cache server
+      YARN_REGISTRY:
+        from_secret: NPM_REGISTRY_URL
+    commands:
+      - cd frontend
+      - yarn install
+      - yarn lint
+
+---
+kind: pipeline
+type: docker
+name: Backend lint
+
+platform:
+  os: linux
+  arch: arm64
+
+steps:
+  - name: flake8
+    image: python:latest
+    environment:
+      # Use the local cache server
+      PIP_INDEX_URL:
+        from_secret: PIP_INDEX_URL
+    commands:
+      - cd backend
+      - pip install --trusted-host $PIP_INDEX_URL --index-url $PIP_INDEX_URL -r requirements.dev.txt
