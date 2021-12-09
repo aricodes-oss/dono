@@ -10,10 +10,6 @@ platform:
 steps:
   - name: eslint
     image: node:latest
-    environment:
-      # Use the local cache server
-      YARN_REGISTRY:
-        from_secret: NPM_REGISTRY_URL
     commands:
       - cd frontend
       - yarn install
