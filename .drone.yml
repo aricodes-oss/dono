@@ -16,6 +16,8 @@ steps:
         from_secret: NPM_REGISTRY_URL
     commands:
       - cd frontend
+      # Needed for the cache to function
+      - rm yarn.lock
       - yarn install
       - yarn lint
 
