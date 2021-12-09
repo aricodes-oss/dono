@@ -10,8 +10,12 @@ platform:
 steps:
   - name: eslint
     image: node:latest
+    environment:
+      YARN_REGISTRY:
+        from_secret: NPM_REGISTRY_URL
     commands:
       - cd frontend
+      - rm yarn.lock
       - yarn install
       - yarn lint
 
