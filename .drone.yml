@@ -15,6 +15,7 @@ steps:
         from_secret: NPM_REGISTRY_URL
     commands:
       - cd frontend
+      - sed -i "s#https://registry.yarnpkg.com/#$YARN_REGISTRY#g" yarn.lock
       - yarn install --network-timeout 1000000
       - yarn lint
 
