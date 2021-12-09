@@ -40,3 +40,4 @@ steps:
     commands:
       - cd backend
       - pip install --trusted-host $PIP_INDEX_HOST --index-url $PIP_INDEX_URL -r requirements.dev.txt
+      - flake8
