@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { configure } from 'mobx';
+import { observer } from 'mobx-react';
+
 import Head from 'next/head';
 import ReactDOM from 'react-dom';
 import AxeCore from 'axe-core';
@@ -8,6 +11,10 @@ import { ThemeProvider } from '@mui/material/styles';
 
 import theme from 'theme';
 import Nav from 'components/Nav';
+
+import GlobalContextProvider, { store } from 'global-context';
+
+configure({ enforceActions: 'never' });
 
 const isSsr = typeof window === 'undefined';
 
@@ -33,9 +40,9 @@ if (process.env.NODE_ENV !== 'production' && !isSsr) {
 }
 
 const App = ({ Component, pageProps }) => (
-  <>
+  <GlobalContextProvider>
     <Head>
-      <title>Dono</title>
+      <title>{store.app.title}</title>
       <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
@@ -52,7 +59,7 @@ const App = ({ Component, pageProps }) => (
       <Nav />
       <Component {...pageProps} />
     </ThemeProvider>
-  </>
+  </GlobalContextProvider>
 );
 
 App.propTypes = {
@@ -64,4 +71,4 @@ App.defaultProps = {
   pageProps: {},
 };
 
-export default App;
+export default observer(App);

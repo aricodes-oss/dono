@@ -1,17 +1,18 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 
+import { useGlobalContext } from 'hooks';
 import NavDrawer from './Drawer';
 
 const Nav = () => {
   const [open, setOpen] = useState(false);
+  const { app } = useGlobalContext();
 
   return (
     <>
@@ -31,7 +32,7 @@ const Nav = () => {
             </IconButton>
 
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              Dono
+              {app.title || 'Dono'}
             </Typography>
           </Toolbar>
         </AppBar>
