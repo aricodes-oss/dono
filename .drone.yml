@@ -38,6 +38,8 @@ steps:
       PIP_INDEX_HOST:
         from_secret: PIP_INDEX_HOST
     commands:
+      - pip config set global.index-url $PIP_INDEX_URL
+      - pip config set global.trusted-host $PIP_INDEX_HOST
       - cd backend
-      - pip install --trusted-host $PIP_INDEX_HOST --index-url $PIP_INDEX_URL -r requirements.dev.txt
+      - pip install -r requirements.dev.txt
       - flake8
